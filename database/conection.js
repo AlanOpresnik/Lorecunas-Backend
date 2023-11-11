@@ -3,7 +3,7 @@ require('dotenv').config();
 
 const connection = async () => {
     try {
-        await mongoose.connect(process.env.MONGODB_URI);
+        await mongoose.connect(process.env.MONGODB_URI, { dbName: 'lorecunas', useNewUrlParser: true, useUnifiedTopology: true });
         console.log("MONGODB_URI:", process.env.MONGODB_URI);
     } catch (error) {
         console.error(error)
