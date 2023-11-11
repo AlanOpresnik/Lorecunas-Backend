@@ -30,42 +30,42 @@ const postOfert = async (req, res) => {
   // Obtener información del formulario
   const params = req.body;
 
+
   // Obtener la información de las imágenes cargadas
   const images = req.files.map((file) => ({
     fieldname: file.fieldname,
     originalname: file.originalname,
     encoding: file.encoding,
     mimetype: file.mimetype,
-    destination: file.destination,
     filename: file.filename,
     path: file.path,
     size: file.size,
   }));
 
-  // Crear una instancia de Product con los datos del formulario
+  // Crear una instancia de Ofert con los datos del formulario
   const newOfert = new Ofert({
     title: params.title,
     description: params.description,
     price: params.price,
     images: images,
-    category: params.category, // Asegúrate de que las imágenes se envíen en el formulario
+    category: params.category,
   });
 
   try {
-    // Guardar el producto en la base de datos utilizando una promesa
+    // Guardar la oferta en la base de datos utilizando una promesa
     const savedOfert = await newOfert.save();
 
-    // Mostrar información del producto guardado
+    // Mostrar información de la oferta guardada
     return res.status(200).send({
-      status: "success",
-      msg: "Producto guardado con éxito",
+      status: 'success',
+      msg: 'Oferta guardada con éxito',
       ofert: savedOfert,
     });
   } catch (error) {
-    console.error("Error al guardar el producto:", error);
+    console.error('Error al guardar la oferta:', error);
     return res.status(500).send({
-      status: "error",
-      msg: "Error al guardar el producto",
+      status: 'error',
+      msg: 'Error al guardar la oferta',
     });
   }
 };
@@ -188,7 +188,6 @@ const removeOfertImage = async (req, res) => {
 
     // Obtiene la ruta del archivo de imagen a eliminar
     const imagePath = path.join(
-      __dirname,
       "../uploadsProducts",
       imageToRemove.filename
     );

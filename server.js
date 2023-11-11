@@ -33,7 +33,8 @@ app.use("/api/products", PRODUCT_ROUTES);
 app.use("/api/banners", BANNER_ROUTES);
 app.use("/api/oferts", OFERT_ROUTES);
 
-app.use("/uploadsProducts", express.static("./uploadsProducts"));
+app.use("/uploadsProducts", express.static(path.join(__dirname, "uploadsProducts")));
+
 
 app.listen(port, () => {
   console.log("listening on port " + port);

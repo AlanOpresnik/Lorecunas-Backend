@@ -1,14 +1,13 @@
-const multer = require('multer');
-
-// Ruta de destino para las imágenes (relativa a la ubicación del archivo de servidor)
-const destination = './server/uploadsProducts';
+const multer = require("multer");
+const path = require("path");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, destination);
+    const destinationPath = path.join(__dirname, "..", "uploadsProducts");
+    cb(null, destinationPath);
   },
   filename: function (req, file, cb) {
-    cb(null, Date.now() + '-' + file.originalname);
+    cb(null, Date.now() + "-" + file.originalname);
   },
 });
 
