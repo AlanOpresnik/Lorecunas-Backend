@@ -1,5 +1,6 @@
 const Product = require("../models/Products");
 const { promisify } = require("util");
+const sharp = require('sharp');
 
 const fs = require("fs");
 const path = require("path");
@@ -54,18 +55,31 @@ const postProduct = async (req, res) => {
   const params = req.body;
 
   // Obtener la información de las imágenes cargadas
-  const images = req.files.map((file) => ({
-    fieldname: file.fieldname,
-    originalname: file.originalname,
-    encoding: file.encoding,
-    mimetype: file.mimetype,
-    destination: file.destination,
-    filename: file.filename,
-    path: file.path,
-    size: file.size,
+  const images = await Promise.all(req.files.map(async (file) => {
+    // Lee la imagen utilizando Sharp
+    const imageBuffer = await sharp(file.path).toFormat('webp').toBuffer();
+
+    // Define la nueva ruta y nombre del archivo
+    const newFilename = file.filename.replace(/\.[^/.]+$/, '.webp');
+    const newPath = `${file.destination}/${newFilename}`;
+
+    // Guarda la imagen convertida en formato WebP
+    await sharp(imageBuffer).toFile(newPath);
+
+    // Devuelve la información de la imagen convertida
+    return {
+      fieldname: file.fieldname,
+      originalname: file.originalname,
+      encoding: file.encoding,
+      mimetype: 'image/webp', // Actualiza el tipo MIME
+      destination: file.destination,
+      filename: newFilename, // Actualiza el nombre del archivo
+      path: newPath, // Actualiza la ruta del archivo
+      size: imageBuffer.length, // Actualiza el tamaño del archivo
+    };
   }));
 
-  // Crear una instancia de Product con los datos del formulario
+  // Crea una instancia de Product con los datos del formulario
   const newProduct = new Product({
     title: params.title,
     description: params.description,
