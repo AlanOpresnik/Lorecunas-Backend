@@ -12,6 +12,10 @@ const OfertSchema = Schema({
     type: Number,
     required: true,
   },
+  beforePrice: {
+    type: Number,
+    required: true,
+  },
   images: [{
     fieldname: String,
     originalname: String,
