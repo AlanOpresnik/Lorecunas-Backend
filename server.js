@@ -34,8 +34,6 @@ app.use("/api/banners", BANNER_ROUTES);
 app.use("/api/oferts", OFERT_ROUTES);
 
 app.use("/uploadsProducts", express.static(path.join(__dirname, "uploadsProducts")));
-app.use("/uploadsBanners", express.static(path.join(__dirname, "uploadsBanners")));
-
 
 
 app.listen(port, () => {
