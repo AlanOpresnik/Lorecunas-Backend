@@ -47,6 +47,7 @@ const postOfert = async (req, res) => {
     title: params.title,
     description: params.description,
     price: params.price,
+    beforePrice: params.beforePrice,
     images: images,
     category: params.category,
   });
@@ -87,6 +88,7 @@ const editOfert = async (req, res) => {
     ofert.title = req.body.title || ofert.title;
     ofert.description = req.body.description || ofert.description;
     ofert.price = req.body.price || ofert.price;
+    ofert.beforePrice = req.body.beforePrice || ofert.beforePrice;
     ofert.category = req.body.category || ofert.category;
     ofert.ofert = req.body.ofert || ofert.ofert;
     ofert.destacado = req.body.destacado || ofert.destacado;
